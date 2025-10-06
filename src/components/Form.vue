@@ -26,7 +26,7 @@
                 type="password"
                 class="form-control"
                 id="password"
-                @blue="() => validatePassword(true)"
+                @blur="() => validatePassword(true)"
                 @input="() => validatePassword(false)"
                 v-model="formData.password"
               />
@@ -42,9 +42,12 @@
                   type="checkbox"
                   class="form-check-input"
                   id="isAustralian"
+                  @blur="() => validateResident(true)"
+                  @change="() => validateResident(false)"
                   v-model="formData.isAustralian"
                 />
                 <label class="form-check-label" for="isAustralian">Australian Resident?</label>
+                <div v-if="errors.resident" class="text-danger">{{ errors.resident }}</div>
               </div>
             </div>
           </div>
@@ -124,6 +127,7 @@ const submitForm = () => {
   // Re-run validation before submitting
   validateName(true)
   validatePassword(true)
+  validateResident(true)
 
   // Prevent submission if there are validation errors
   if (!errors.value.username && !errors.value.password) {
@@ -194,6 +198,14 @@ const validatePassword = (blur) => {
     if (blur) errors.value.password = 'Password must contain at least one special character.'
   } else {
     errors.value.password = null
+  }
+}
+
+const validateResident = () => {
+  if (!formData.value.isAustralian) {
+    errors.value.resident = 'You must be an Australian resident.'
+  } else {
+    errors.value.resident = false
   }
 }
 </script>
