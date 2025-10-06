@@ -96,32 +96,24 @@
     </div>
   </div>
 
-  <!-- Display submitted cards -->
+  <!-- Display submitted items in a PrimeVue DataTable -->
   <div class="row mt-5" v-if="submittedCards.length">
-    <div class="d-flex flex-wrap justify-content-start">
-      <div
-        v-for="(card, index) in submittedCards"
-        :key="index"
-        class="card m-2"
-        style="width: 18rem"
-      >
-        <div class="card-header">User Information</div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">Username: {{ card.username }}</li>
-          <li class="list-group-item">Password: {{ card.password }}</li>
-          <li class="list-group-item">
-            Australian Resident: {{ card.isAustralian ? 'Yes' : 'No' }}
-          </li>
-          <li class="list-group-item">Gender: {{ card.gender }}</li>
-          <li class="list-group-item">Reason: {{ card.reason }}</li>
-        </ul>
-      </div>
-    </div>
+    <DataTable :value="submittedCards" dataKey="username" responsiveLayout="scroll">
+      <Column field="username" header="Username" />
+      <Column field="password" header="Password" />
+      <Column header="Australia Resident">
+        <template #body="{ data }">{{ data.isAustralian ? 'Yes' : 'No' }}</template>
+      </Column>
+      <Column field="gender" header="Gender" />
+      <Column field="reason" header="Reason" />
+    </DataTable>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+import DataTable from 'primevue/datatable'
+import Column from 'primevue/column'
 
 const formData = ref({
   username: '',
