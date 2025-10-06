@@ -1,9 +1,9 @@
 <script setup>
-import Form from './components/Form.vue'
+import UserForm from './components/UserForm.vue'
 </script>
 
 <template>
-  <Form />
+  <UserForm />
 </template>
 
 <style scoped></style>
