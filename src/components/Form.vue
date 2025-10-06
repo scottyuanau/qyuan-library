@@ -7,24 +7,25 @@
         <form @submit.prevent="submitForm">
           <!-- Username / Password -->
           <div class="row mb-3">
-            <div class="col-6">
+            <div class="col-12 col-md-6">
               <label for="username" class="form-label">Username</label>
               <input
                 type="text"
                 class="form-control"
                 id="username"
-                required
+                @blur="() => validateName(true)"
+                @input="() => validateName(false)"
                 v-model="formData.username"
               />
+              <div v-if="errors.username" class="text-danger">{{ errors.username }}</div>
             </div>
-            <div class="col-6">
+
+            <div class="col-12 col-md-6">
               <label for="password" class="form-label">Password</label>
               <input
                 type="password"
                 class="form-control"
                 id="password"
-                minlength="4"
-                maxlength="10"
                 v-model="formData.password"
               />
             </div>
@@ -38,7 +39,6 @@
                   type="checkbox"
                   class="form-check-input"
                   id="isAustralian"
-                  required
                   v-model="formData.isAustralian"
                 />
                 <label class="form-check-label" for="isAustralian">Australian Resident?</label>
@@ -50,7 +50,7 @@
           <div class="row mb-3">
             <div class="col-md-6">
               <label for="gender" class="form-label">Gender</label>
-              <select class="form-select" id="gender" required v-model="formData.gender">
+              <select class="form-select" id="gender" v-model="formData.gender">
                 <option disabled value="">Select…</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
@@ -66,7 +66,6 @@
               class="form-control"
               id="reason"
               rows="3"
-              required
               v-model="formData.reason"
             ></textarea>
           </div>
@@ -119,9 +118,21 @@ const formData = ref({
 const submittedCards = ref([])
 
 const submitForm = () => {
+  // Re-run validation before submitting
+  validateName(true)
+
+  // Prevent submission if there are validation errors
+  if (errors.value.username) {
+    alert('Please fix the errors before submitting.')
+    return
+  }
+
   submittedCards.value.push({
     ...formData.value,
   })
+
+  // reset form and errors
+  clearForm()
 }
 
 const clearForm = () => {
@@ -133,6 +144,29 @@ const clearForm = () => {
     gender: '',
   }
   submittedCards.value = []
+  errors.value = {
+    username: null,
+    password: null,
+    resident: null,
+    gender: null,
+    reason: null,
+  }
+}
+
+const errors = ref({
+  username: null,
+  password: null,
+  resisdent: null,
+  gender: null,
+  reason: null,
+})
+
+const validateName = (blur) => {
+  if (formData.value.username.length < 3) {
+    if (blur) errors.value.username = 'Username must be at least 3 characters long.'
+  } else {
+    errors.value.username = null
+  }
 }
 </script>
 
