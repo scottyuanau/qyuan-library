@@ -26,8 +26,11 @@
                 type="password"
                 class="form-control"
                 id="password"
+                @blue="() => validatePassword(true)"
+                @input="() => validatePassword(false)"
                 v-model="formData.password"
               />
+              <div v-if="errors.password" class="text-danger">{{ errors.password }}</div>
             </div>
           </div>
 
@@ -120,22 +123,20 @@ const submittedCards = ref([])
 const submitForm = () => {
   // Re-run validation before submitting
   validateName(true)
+  validatePassword(true)
 
   // Prevent submission if there are validation errors
-  if (errors.value.username) {
-    alert('Please fix the errors before submitting.')
-    return
+  if (!errors.value.username && !errors.value.password) {
+    submittedCards.value.push({
+      ...formData.value,
+    })
+
+    // reset form and errors
+    clearInputs()
   }
-
-  submittedCards.value.push({
-    ...formData.value,
-  })
-
-  // reset form and errors
-  clearForm()
 }
 
-const clearForm = () => {
+const clearInputs = () => {
   formData.value = {
     username: '',
     password: '',
@@ -143,7 +144,6 @@ const clearForm = () => {
     reason: '',
     gender: '',
   }
-  submittedCards.value = []
   errors.value = {
     username: null,
     password: null,
@@ -151,6 +151,11 @@ const clearForm = () => {
     gender: null,
     reason: null,
   }
+}
+
+const clearForm = () => {
+  clearInputs()
+  submittedCards.value = []
 }
 
 const errors = ref({
@@ -166,6 +171,29 @@ const validateName = (blur) => {
     if (blur) errors.value.username = 'Username must be at least 3 characters long.'
   } else {
     errors.value.username = null
+  }
+}
+
+const validatePassword = (blur) => {
+  const password = formData.value.password
+  const minLength = 8
+  const hasUpperCase = /[A-Z]/.test(password)
+  const hasLowerCase = /[a-z]/.test(password)
+  const hasNumber = /\d/.test(password)
+  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password)
+
+  if (password.length < minLength) {
+    if (blur) errors.value.password = `Password must be at least ${minLength} characters long.`
+  } else if (!hasUpperCase) {
+    if (blur) errors.value.password = 'Password must contain at least one uppercase letter.'
+  } else if (!hasLowerCase) {
+    if (blur) errors.value.password = 'Password must contain at least one lowercase letter.'
+  } else if (!hasNumber) {
+    if (blur) errors.value.password = 'Password must contain at least one number.'
+  } else if (!hasSpecialChar) {
+    if (blur) errors.value.password = 'Password must contain at least one special character.'
+  } else {
+    errors.value.password = null
   }
 }
 </script>
