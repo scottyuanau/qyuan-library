@@ -99,6 +99,7 @@
               @input="() => validateReason(false)"
             ></textarea>
             <div v-if="errors.reason" class="text-danger">{{ errors.reason }}</div>
+            <div v-if="friendMessage" class="text-success">{{ friendMessage }}</div>
           </div>
 
           <!-- Actions -->
@@ -140,6 +141,7 @@ const formData = ref({
 })
 
 const submittedCards = ref([])
+const friendMessage = ref(null)
 
 const submitForm = () => {
   // Re-run validation before submitting
@@ -250,11 +252,20 @@ const validateGender = (blur = false) => {
 
 const validateReason = (blur = false) => {
   const reason = formData.value.reason.trim()
-  const min = 10 // tweak as you like
+  const min = 10
+  const includesFriend = /\bfriend\b/i.test(reason)
+
   if (reason.length < min) {
     if (blur) errors.value.reason = `Reason must be at least ${min} characters long.`
+    friendMessage.value = null
   } else {
     errors.value.reason = null
+    // If "friend" is mentioned, show green message
+    if (includesFriend) {
+      friendMessage.value = 'Great to have a friend'
+    } else {
+      friendMessage.value = null
+    }
   }
 }
 
