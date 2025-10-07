@@ -14,4 +14,14 @@ import BHeader from './components/BHeader.vue'
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.main-box {
+  padding-top: 6rem;
+}
+
+@media (min-width: 768px) {
+  .main-box {
+    padding-top: 5rem;
+  }
+}
+</style>
