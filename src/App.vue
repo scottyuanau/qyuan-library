@@ -1,9 +1,17 @@
 <script setup>
-import UserForm from './components/UserForm.vue'
+// import HomeView from './views/HomeView.vue'
+import BHeader from './components/BHeader.vue'
 </script>
 
 <template>
-  <UserForm />
+  <div class="main-container">
+    <header>
+      <BHeader />
+    </header>
+    <main class="main-box">
+      <router-view></router-view>
+    </main>
+  </div>
 </template>
 
 <style scoped></style>
