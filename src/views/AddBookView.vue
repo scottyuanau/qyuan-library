@@ -1,8 +1,7 @@
 <script>
-import {ref} from 'vue'
-import db from '../firebase/index.js'
-import {collection, addDoc} from 'firebase/firestore'
-import BookList from '../components/BookList.vue'
+import { ref } from 'vue'
+import { collection, addDoc } from 'firebase/firestore'
+import { db } from '../firebase/index.js'
 
 export default {
   setup() {
@@ -12,31 +11,42 @@ export default {
     const addBook = async () => {
       try {
         const isbnNumber = Number(isbn.value)
-        if (isNaN(isbnNumber)) {
+        if (Number.isNaN(isbnNumber)) {
           alert('ISBN number must be a number')
           return
         }
+
+        if (!db) {
+          console.error('Firestore has not been initialised. Check your Firebase config.')
+          alert('Unable to connect to the database. Please try again later.')
+          return
+        }
+
         await addDoc(collection(db, 'books'), {
           isbn: isbnNumber,
           name: name.value,
         })
+
         isbn.value = ''
         name.value = ''
         alert('Book added successfully!')
       } catch (error) {
         console.error('Error adding book', error)
       }
-
-
     }
-  }
-}
 
+    return {
+      isbn,
+      name,
+      addBook,
+    }
+  },
+}
 </script>
 
 <template>
   <div>
-    <h1>Add Boook</h1>
+    <h1>Add Book</h1>
     <form @submit.prevent="addBook">
       <div>
         <label for="isbn">ISBN:</label>

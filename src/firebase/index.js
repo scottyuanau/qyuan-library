@@ -27,6 +27,6 @@ if (missingKeys.length === 0) {
 }
 
 const auth = firebaseApp ? getAuth(firebaseApp) : null
-const db = getFirestore()
+const db = firebaseApp ? getFirestore(firebaseApp) : null
 
 export { auth, firebaseConfig, missingKeys, db }
