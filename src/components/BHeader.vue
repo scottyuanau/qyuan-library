@@ -19,7 +19,10 @@
           <button v-if="isAuthenticated" class="btn btn-outline-secondary btn-sm" @click="handleLogout">
             Logout
           </button>
-          <router-link v-else to="/login" class="btn btn-primary btn-sm">Login</router-link>
+          <template v-else>
+            <router-link to="/login" class="btn btn-primary btn-sm">Login</router-link>
+            <router-link to="/firelogin" class="btn btn-outline-primary btn-sm">Firelogin</router-link>
+          </template>
         </div>
       </div>
     </div>

@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView.vue'
 import LoginView from '../views/LoginView.vue'
 import AccessDeniedView from '../views/AccessDeniedView.vue'
+import FirebaseSigninView from '../views/FirebaseSigninView.vue'
 import { isAuthenticated } from '../composables/auth'
 
 const routes = [
@@ -21,6 +22,12 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: LoginView,
+    meta: { guestOnly: true },
+  },
+  {
+    path: '/firelogin',
+    name: 'FirebaseLogin',
+    component: FirebaseSigninView,
     meta: { guestOnly: true },
   },
   {
