@@ -1,13 +1,18 @@
 <script>
-import {ref, onMounted} from 'vue'
-import db from '../firebase/index.js'
-import {collection, query, where, getDocs} from 'firebase/firestore'
+import { onMounted, ref } from 'vue'
+import { collection, getDocs, query, where } from 'firebase/firestore'
+import { db } from '../firebase/index.js'
 
 export default {
   setup(){
     const books = ref([])
     const fetchBooks = async () => {
       try {
+        if (!db) {
+          console.warn('Firestore has not been initialised. Skipping book fetch.')
+          return
+        }
+
         const q = query(collection(db, 'books'), where('isbn','>',1000))
         const querySnapshot = await getDocs(q)
         const booksArray = []
