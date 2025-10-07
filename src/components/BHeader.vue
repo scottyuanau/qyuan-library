@@ -1,28 +1,57 @@
 <template>
-  <!-- Using Bootstrap's Header template (starter code) -->
-  <!-- https://getbootstrap.com/docs/5.0/examples/headers/ -->
   <header class="b-header fixed-top">
     <div class="container">
-      <div class="d-flex justify-content-center py-3">
-        <ul class="nav nav-pills">
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-center py-3">
+        <ul class="nav nav-pills mb-3 mb-md-0">
           <li class="nav-item">
-            <router-link to="/" class="nav-link" active-class="active" aria-current="page"
-              >Home (Week 5)</router-link
-            >
+            <router-link to="/" class="nav-link" active-class="active" aria-current="page">
+              Home (Week 5)
+            </router-link>
           </li>
           <li class="nav-item">
             <router-link to="/about" class="nav-link" active-class="active">About</router-link>
           </li>
         </ul>
+        <div class="d-flex align-items-center gap-2 auth-controls">
+          <span v-if="isAuthenticated" class="text-muted small">
+            Signed in as <strong>{{ state.user?.username }}</strong>
+          </span>
+          <button v-if="isAuthenticated" class="btn btn-outline-secondary btn-sm" @click="handleLogout">
+            Logout
+          </button>
+          <router-link v-else to="/login" class="btn btn-primary btn-sm">Login</router-link>
+        </div>
       </div>
     </div>
   </header>
 </template>
+
+<script setup>
+import { computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuth } from '../composables/auth'
+
+const router = useRouter()
+const { state, logout, isAuthenticated: authStatus } = useAuth()
+
+const isAuthenticated = computed(() => authStatus.value)
+
+const handleLogout = () => {
+  logout()
+  if (router.currentRoute.value.meta.requiresAuth) {
+    router.push({ name: 'Home' })
+  }
+}
+</script>
 
 <style scoped>
 .b-header {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
   width: 100%;
+}
+
+.auth-controls {
+  min-height: 38px;
 }
 </style>
