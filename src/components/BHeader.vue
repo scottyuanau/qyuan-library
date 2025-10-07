@@ -11,6 +11,9 @@
           <li class="nav-item">
             <router-link to="/about" class="nav-link" active-class="active">About</router-link>
           </li>
+          <li class="nav-item">
+            <router-link to="/addbook" class="nav-link" active-class="active">Add Book</router-link>
+          </li>
         </ul>
         <div class="d-flex align-items-center gap-2 auth-controls">
           <span v-if="isAuthenticated" class="text-muted small">
