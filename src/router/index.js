@@ -49,7 +49,7 @@ const routes = [
     component: FirebaseRegisterView
   },
   {
-    path: 'GetBookCount',
+    path: '/GetBookCount',
     name: 'GetBookCount',
     component: GetBookCountView,
   }

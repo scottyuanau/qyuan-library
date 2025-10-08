@@ -1,7 +1,5 @@
 <script>
-const functionsBaseUrl =
-  import.meta.env.VITE_FIREBASE_FUNCTIONS_BASE_URL ||
-  'https://australia-southeast1-qyuan-library.cloudfunctions.net'
+
 
 export default {
   data() {
@@ -15,7 +13,7 @@ export default {
     async getBookCount() {
       this.loading = true
       try {
-        const response = await fetch(`${functionsBaseUrl}/countBooks`)
+        const response = await fetch(`https://countbooks-i7hrubn73q-ts.a.run.app`)
         if (!response.ok) {
           throw new Error(`Request failed with status ${response.status}`)
         }
