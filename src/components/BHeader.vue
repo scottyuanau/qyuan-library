@@ -20,6 +20,9 @@
           <li class="nav-item">
             <router-link to="/GetBookCount" class="nav-link" active-class="active">Get Book Count</router-link>
           </li>
+          <li class="nav-item">
+            <router-link to="/WeatherCheck" class="nav-link" active-class="active">Get Weather</router-link>
+          </li>
         </ul>
         <div class="d-flex align-items-center gap-2 auth-controls">
           <span v-if="isAuthenticated" class="text-muted small">
