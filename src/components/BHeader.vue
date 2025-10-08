@@ -26,6 +26,9 @@
           <li class="nav-item">
             <router-link to="/CountBookAPI" class="nav-link" active-class="active">Count Book API</router-link>
           </li>
+          <li class="nav-item">
+            <router-link to="/GetAllBookAPI" class="nav-link" active-class="active">Get All Book API</router-link>
+          </li>
         </ul>
         <div class="d-flex align-items-center gap-2 auth-controls">
           <span v-if="isAuthenticated" class="text-muted small">

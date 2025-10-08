@@ -1,17 +1,16 @@
 <script>
 // import HomeView from './views/HomeView.vue'
 import BHeader from './components/BHeader.vue'
-import CountBookAPI from './views/CountBookAPI.vue'
 
 export default {
   name:'App',
   components: {
     BHeader,
-    CountBookAPI,
   },
   computed: {
     showHeader() {
-      return this.$route.name !== 'CountBookAPI'
+      const headerlessRoutes = ['CountBookAPI', 'GetAllBookAPI']
+      return !headerlessRoutes.includes(this.$route.name)
     }
   }
 }
