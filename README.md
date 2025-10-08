@@ -40,5 +40,5 @@ npm run build
 ### Lint with [ESLint](https://eslint.org/)
 
 ```sh
-npm run lint
+npm run lint 
 ```
